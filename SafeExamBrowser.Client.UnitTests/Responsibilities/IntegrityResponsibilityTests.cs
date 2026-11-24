@@ -13,6 +13,7 @@ using SafeExamBrowser.Client.Responsibilities;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 {
@@ -28,6 +29,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 			var context = new ClientContext();
 			var coordinator = new Mock<ICoordinator>();
 			var logger = new Mock<ILogger>();
+			var monitor = new Mock<ISuspensionMonitor>();
 			var valid = true;
 
 			text = new Mock<IText>();
@@ -35,7 +37,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 
 			integrityModule.Setup(m => m.TryVerifySessionIntegrity(It.IsAny<string>(), out valid)).Returns(true);
 
-			var sut = new IntegrityResponsibility(context, coordinator.Object, logger.Object, text.Object);
+			var sut = new IntegrityResponsibility(context, coordinator.Object, 0, logger.Object, monitor.Object, text.Object);
 		}
 	}
 }

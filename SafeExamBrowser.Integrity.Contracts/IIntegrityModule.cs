@@ -49,14 +49,14 @@ namespace SafeExamBrowser.Integrity.Contracts
 		bool TryGenerateVerificatorCode(string payload, out string code);
 
 		/// <summary>
-		/// Attempts to verify the code signature.
+		/// Attempts to verify the application integrity.
 		/// </summary>
-		bool TryVerifyCodeSignature(out bool isValid);
+		bool TryVerifyApplicationIntegrity(out bool isValid);
 
 		/// <summary>
 		/// Attempts to verify the runtime integrity.
 		/// </summary>
-		bool TryVerifyRuntimeIntegrity(out bool isValid);
+		bool TryVerifyRuntimeIntegrity(out RuntimeIntegrityViolation violations);
 
 		/// <summary>
 		/// Attempts to verify the integrity for the specified session.

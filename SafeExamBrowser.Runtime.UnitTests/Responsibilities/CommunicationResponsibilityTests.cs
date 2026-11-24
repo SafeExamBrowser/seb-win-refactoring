@@ -101,5 +101,18 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 			runtimeHost.Raise(r => r.ShutdownRequested += null);
 			shutdown.Verify(s => s(), Times.Once);
 		}
+
+		[TestMethod]
+		public void MustCorrectlyDeregisterEvents()
+		{
+			sut.Assume(RuntimeTask.DeregisterEvents);
+
+			runtimeHost.Raise(r => r.ClientConfigurationNeeded += null);
+			runtimeHost.Raise(r => r.ReconfigurationRequested += null);
+			runtimeHost.Raise(r => r.ShutdownRequested += null);
+
+			responsibilities.VerifyNoOtherCalls();
+			shutdown.VerifyNoOtherCalls();
+		}
 	}
 }

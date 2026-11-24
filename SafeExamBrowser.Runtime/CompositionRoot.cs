@@ -29,7 +29,9 @@ using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Monitoring.Display;
+using SafeExamBrowser.Monitoring.Suspension;
 using SafeExamBrowser.Monitoring.System;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations.Bootstrap;
@@ -74,7 +76,7 @@ namespace SafeExamBrowser.Runtime
 
 			var context = new RuntimeContext();
 			var crashLog = new CrashLog(appConfig, new FileSystem(), ModuleLogger(nameof(CrashLog)));
-			var factory = new UserInterfaceFactory(text);
+			var factory = CreateUserInterfaceFactory();
 			var integrityModule = new IntegrityModule(appConfig, ModuleLogger(nameof(IntegrityModule)));
 			var mailClient = new MailClient(appConfig, ModuleLogger(nameof(MailClient)));
 			var messageBox = new MessageBoxFactory(text);
@@ -83,12 +85,13 @@ namespace SafeExamBrowser.Runtime
 			var runtimeWindow = factory.CreateRuntimeWindow(appConfig);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var splashScreen = factory.CreateSplashScreen(appConfig);
+			var suspensionMonitor = new SuspensionMonitor(ModuleLogger(nameof(SuspensionMonitor)), new NativeMethods());
 
-			systemInfo = new SystemInfo(registry);
+			systemInfo = CreateSystemInfo(registry);
 
 			var bootstrapSequence = BuildBootstrapOperations(crashLog, integrityModule, context, runtimeHost, splashScreen);
 			var sessionSequence = BuildSessionOperations(integrityModule, messageBox, registry, runtimeHost, runtimeWindow, serviceProxy, context, factory);
-			var responsibilities = BuildResponsibilities(integrityModule, mailClient, messageBox, context, runtimeHost, runtimeWindow, serviceProxy, sessionSequence, shutdown, splashScreen, factory);
+			var responsibilities = BuildResponsibilities(integrityModule, mailClient, messageBox, context, runtimeHost, runtimeWindow, serviceProxy, sessionSequence, shutdown, splashScreen, suspensionMonitor, factory);
 
 			context.Responsibilities = responsibilities;
 
@@ -107,7 +110,7 @@ namespace SafeExamBrowser.Runtime
 			operations.Enqueue(new I18nOperation(logger, text));
 			operations.Enqueue(new CrashLogOperation(appConfig, crashLog, logger, runtimeContext));
 			operations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
-			operations.Enqueue(new ApplicationIntegrityOperation(integrityModule, logger));
+			operations.Enqueue(new IntegrityOperation(integrityModule, logger));
 
 			return new BootstrapOperationSequence(logger, operations, splashScreen);
 		}
@@ -123,6 +126,7 @@ namespace SafeExamBrowser.Runtime
 			SessionOperationSequence sessionSequence,
 			Action shutdown,
 			ISplashScreen splashScreen,
+			ISuspensionMonitor suspensionMonitor,
 			IUserInterfaceFactory factory)
 		{
 			var responsibilities = new Queue<RuntimeResponsibility>();
@@ -130,7 +134,7 @@ namespace SafeExamBrowser.Runtime
 			responsibilities.Enqueue(new ClientResponsibility(ModuleLogger(nameof(ClientResponsibility)), messageBox, runtimeContext, runtimeWindow, shutdown));
 			responsibilities.Enqueue(new CommunicationResponsibility(ModuleLogger(nameof(CommunicationResponsibility)), runtimeContext, runtimeHost, shutdown));
 			responsibilities.Enqueue(new ErrorMessageResponsibility(appConfig, ModuleLogger(nameof(ErrorMessageResponsibility)), mailClient, runtimeContext, runtimeWindow, splashScreen, text, factory));
-			responsibilities.Enqueue(new IntegrityResponsibility(integrityModule, ModuleLogger(nameof(IntegrityResponsibility)), runtimeContext, shutdown));
+			responsibilities.Enqueue(new IntegrityResponsibility(integrityModule, FIVE_SECONDS, ModuleLogger(nameof(IntegrityResponsibility)), runtimeContext, shutdown, suspensionMonitor));
 			responsibilities.Enqueue(new ServiceResponsibility(ModuleLogger(nameof(ServiceResponsibility)), messageBox, runtimeContext, runtimeWindow, serviceProxy, shutdown));
 			responsibilities.Enqueue(new SessionResponsibility(appConfig, ModuleLogger(nameof(SessionResponsibility)), messageBox, runtimeContext, runtimeWindow, sessionSequence, shutdown, text));
 
@@ -204,6 +208,42 @@ namespace SafeExamBrowser.Runtime
 			logger?.Log($"# Application terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
 		}
 
+		/// <summary>
+		/// Virtual to allow bypassing the WMI queries of the system information in unit tests.
+		/// </summary>
+		protected virtual ISystemInfo CreateSystemInfo(IRegistry registry)
+		{
+			return new SystemInfo(registry);
+		}
+
+		/// <summary>
+		/// Virtual to allow bypassing the instantiation of the WPF user interface in unit tests.
+		/// </summary>
+		protected virtual IUserInterfaceFactory CreateUserInterfaceFactory()
+		{
+			return new UserInterfaceFactory(text);
+		}
+
+		/// <summary>
+		/// Virtual to allow bypassing the dependency on the entry assembly and the environment in unit tests.
+		/// </summary>
+		protected virtual AppConfig InitializeAppConfig()
+		{
+			return repository.InitializeAppConfig();
+		}
+
+		/// <summary>
+		/// Virtual to allow bypassing the file system access in unit tests.
+		/// </summary>
+		protected virtual void InitializeLogging()
+		{
+			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFilePath);
+
+			logFileWriter.Initialize();
+			logger.LogLevel = LogLevel.Debug;
+			logger.Subscribe(logFileWriter);
+		}
+
 		private void InitializeConfiguration()
 		{
 			var certificateStore = new CertificateStore(ModuleLogger(nameof(CertificateStore)));
@@ -216,7 +256,7 @@ namespace SafeExamBrowser.Runtime
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
 			repository = new ConfigurationRepository(certificateStore, repositoryLogger);
-			appConfig = repository.InitializeAppConfig();
+			appConfig = InitializeAppConfig();
 
 			repository.Register(new BinaryParser(
 				compressor,
@@ -237,15 +277,6 @@ namespace SafeExamBrowser.Runtime
 			repository.Register(new FileResourceLoader(ModuleLogger(nameof(FileResourceLoader))));
 			repository.Register(new FileResourceSaver(ModuleLogger(nameof(FileResourceSaver))));
 			repository.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));
-		}
-
-		private void InitializeLogging()
-		{
-			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFilePath);
-
-			logFileWriter.Initialize();
-			logger.LogLevel = LogLevel.Debug;
-			logger.Subscribe(logFileWriter);
 		}
 
 		private void InitializeText()

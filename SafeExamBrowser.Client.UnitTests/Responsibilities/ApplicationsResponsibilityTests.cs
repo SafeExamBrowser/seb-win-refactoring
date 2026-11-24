@@ -15,7 +15,7 @@ using SafeExamBrowser.Logging.Contracts;
 namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 {
 	[TestClass]
-	public class ApplicationResponsibilityTests
+	public class ApplicationsResponsibilityTests
 	{
 		private ClientContext context;
 		private ApplicationsResponsibility sut;

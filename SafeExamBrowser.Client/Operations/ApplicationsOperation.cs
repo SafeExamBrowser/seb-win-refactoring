@@ -23,7 +23,7 @@ using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class ApplicationOperation : ClientOperation
+	internal class ApplicationsOperation : ClientOperation
 	{
 		private readonly IApplicationFactory factory;
 		private readonly IFileSystemDialog fileSystemDialog;
@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public ApplicationOperation(
+		public ApplicationsOperation(
 			ClientContext context,
 			IApplicationFactory factory,
 			IFileSystemDialog fileSystemDialog,

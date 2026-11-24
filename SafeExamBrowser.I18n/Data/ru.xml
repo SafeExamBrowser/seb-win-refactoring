@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Вы используете неофициальную версию SEB! Пожалуйста, убедитесь, что используете официальный браузер Safe Exam. Чтобы разблокировать SEB, пожалуйста, введите правильный пароль для разблокировки.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser был приостановлен! Чтобы разблокировать SEB, введите правильный пароль разблокировки.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Временно разрешить приложения, занесенные в черный список. Это относится только к запущенным в данный момент экземплярам и сеансу!
     </Entry>
@@ -646,7 +649,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Проверка политики виртуальной машины
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Проверка целостности
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

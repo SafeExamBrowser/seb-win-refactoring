@@ -7,10 +7,10 @@
  */
 
 using System;
-using System.Threading.Tasks;
 using System.Timers;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 
 namespace SafeExamBrowser.Runtime.Responsibilities
 {
@@ -18,17 +18,21 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 	{
 		private readonly IIntegrityModule integrityModule;
 		private readonly Action shutdown;
+		private readonly ISuspensionMonitor suspensionMonitor;
 		private readonly Timer timer;
 
 		public IntegrityResponsibility(
 			IIntegrityModule integrityModule,
+			int interval_ms,
 			ILogger logger,
 			RuntimeContext runtimeContext,
-			Action shutdown) : base(logger, runtimeContext)
+			Action shutdown,
+			ISuspensionMonitor suspensionMonitor) : base(logger, runtimeContext)
 		{
 			this.integrityModule = integrityModule;
 			this.shutdown = shutdown;
-			this.timer = new Timer();
+			this.suspensionMonitor = suspensionMonitor;
+			this.timer = new Timer(interval_ms);
 		}
 
 		public override void Assume(RuntimeTask task)
@@ -46,61 +50,62 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		private void StartIntegrityMonitoring()
 		{
-			const int FIVE_SECONDS = 5000;
+			suspensionMonitor.SuspensionDetected += SuspensionMonitor_SuspensionDetected;
+			suspensionMonitor.Start();
 
 			timer.AutoReset = false;
-			timer.Interval = FIVE_SECONDS;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 
-			Logger.Info("Started monitoring runtime integrity.");
+			Logger.Info("Started monitoring integrity.");
 		}
 
 		private void StopIntegrityMonitoring()
 		{
+			suspensionMonitor.Stop();
+			suspensionMonitor.SuspensionDetected -= SuspensionMonitor_SuspensionDetected;
+
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
 
-			Logger.Info("Stopped monitoring runtime integrity.");
+			Logger.Info("Stopped monitoring integrity.");
+		}
+
+		private void SuspensionMonitor_SuspensionDetected()
+		{
+			Logger.Info("Initiating shutdown due to application suspension...");
+			shutdown.Invoke();
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			Logger.Info("Attempting to verify runtime integrity...");
+			VerifyRuntimeIntegrity();
+			timer.Start();
+		}
 
-			if (integrityModule.TryVerifyRuntimeIntegrity(out var isValid))
+		private void VerifyRuntimeIntegrity()
+		{
+			Logger.Debug("Attempting to verify runtime integrity...");
+
+			if (integrityModule.TryVerifyRuntimeIntegrity(out var violations))
 			{
-				HandleRuntimeIntegrityStatus(isValid);
+				HandleRuntimeIntegrityStatus(violations);
 			}
 			else
 			{
 				Logger.Warn("Failed to verify runtime integrity!");
 			}
-
-			timer.Start();
 		}
 
-		private void HandleRuntimeIntegrityStatus(bool isValid)
+		private void HandleRuntimeIntegrityStatus(RuntimeIntegrityViolation violations)
 		{
-			if (isValid)
+			if (violations == RuntimeIntegrityViolation.None)
 			{
-				Logger.Info("Runtime integrity successfully verified.");
+				Logger.Debug("Runtime integrity successfully verified.");
 			}
 			else
 			{
-				Logger.Error("Runtime integrity is compromised!");
-
-				StopIntegrityMonitoring();
-
-				Task.Run(() =>
-				{
-					if (SessionIsRunning)
-					{
-						Context.Responsibilities.Delegate(RuntimeTask.StopSession);
-					}
-
-					shutdown.Invoke();
-				});
+				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
 			}
 		}
 	}

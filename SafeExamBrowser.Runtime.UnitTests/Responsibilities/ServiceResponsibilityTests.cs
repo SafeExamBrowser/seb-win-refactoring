@@ -92,5 +92,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 			responsibilities.Verify(r => r.Delegate(RuntimeTask.StopSession), Times.Never);
 			shutdown.Verify(s => s(), Times.Never);
 		}
+
+		[TestMethod]
+		public void MustCorrectlyDeregisterEvents()
+		{
+			sut.Assume(RuntimeTask.DeregisterSessionEvents);
+
+			serviceProxy.Raise(c => c.ConnectionLost += null);
+
+			messageBox.VerifyNoOtherCalls();
+			responsibilities.VerifyNoOtherCalls();
+			shutdown.VerifyNoOtherCalls();
+		}
 	}
 }

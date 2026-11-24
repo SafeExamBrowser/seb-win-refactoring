@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Du använder en icke officiell version av SEB. Säkerställ att du använder en officiell version av Safe Exam Browser. För att låsa upp SEB, ange rätt lösenord.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser har pausats! Ange rätt lösenord för att låsa upp SEB.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Tillåt blockerade applikationer temporärt. Detta gäller endast på den nuvarande instansen och den pågående sessionen.
     </Entry>

@@ -93,7 +93,7 @@
     <Compile Include="Operations\DisplayMonitorOperation.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperation.cs" />
     <Compile Include="Operations\MouseInterceptorOperation.cs" />
-    <Compile Include="Operations\ApplicationOperation.cs" />
+    <Compile Include="Operations\ApplicationsOperation.cs" />
     <Compile Include="Operations\ServerOperation.cs" />
     <Compile Include="Operations\ShellOperation.cs" />
     <Compile Include="Operations\WindowGuardOperation.cs" />

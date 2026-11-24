@@ -14,14 +14,14 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 {
-	internal class ApplicationIntegrityOperation : IOperation
+	internal class IntegrityOperation : IOperation
 	{
 		private readonly IIntegrityModule module;
 		private readonly ILogger logger;
 
 		public event StatusChangedEventHandler StatusChanged;
 
-		public ApplicationIntegrityOperation(IIntegrityModule module, ILogger logger)
+		public IntegrityOperation(IIntegrityModule module, ILogger logger)
 		{
 			this.module = module;
 			this.logger = logger;
@@ -29,19 +29,13 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 
 		public OperationResult Perform()
 		{
-			var result = OperationResult.Success;
+			logger.Info("Attempting to verify application and runtime integrity...");
+			StatusChanged?.Invoke(TextKey.OperationStatus_VerifyIntegrity);
 
-			logger.Info($"Attempting to verify application integrity...");
-			StatusChanged?.Invoke(TextKey.OperationStatus_VerifyApplicationIntegrity);
+			VerifyApplicationIntegrity();
+			VerifyRuntimeIntegrity();
 
-			VerifyCodeSignature();
-
-			if (!VerifyRuntimeIntegrity())
-			{
-				result = OperationResult.Failed;
-			}
-
-			return result;
+			return OperationResult.Success;
 		}
 
 		public OperationResult Revert()
@@ -49,9 +43,9 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 			return OperationResult.Success;
 		}
 
-		private void VerifyCodeSignature()
+		private void VerifyApplicationIntegrity()
 		{
-			if (module.TryVerifyCodeSignature(out var isValid))
+			if (module.TryVerifyApplicationIntegrity(out var isValid))
 			{
 				if (isValid)
 				{
@@ -70,15 +64,19 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 
 		private bool VerifyRuntimeIntegrity()
 		{
-			if (module.TryVerifyRuntimeIntegrity(out var isValid))
+			var valid = false;
+
+			if (module.TryVerifyRuntimeIntegrity(out var violations))
 			{
-				if (isValid)
+				valid = violations == RuntimeIntegrityViolation.None;
+
+				if (valid)
 				{
 					logger.Info("Runtime integrity successfully verified.");
 				}
 				else
 				{
-					logger.Error("Runtime integrity is compromised!");
+					logger.Warn($"Runtime integrity is compromised ({violations:G})!");
 				}
 			}
 			else
@@ -86,7 +84,7 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 				logger.Warn("Failed to verify runtime integrity!");
 			}
 
-			return isValid;
+			return valid;
 		}
 	}
 }

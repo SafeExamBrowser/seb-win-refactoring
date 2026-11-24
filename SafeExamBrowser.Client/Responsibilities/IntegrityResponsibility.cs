@@ -14,6 +14,7 @@ using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 
 namespace SafeExamBrowser.Client.Responsibilities
@@ -21,16 +22,24 @@ namespace SafeExamBrowser.Client.Responsibilities
 	internal class IntegrityResponsibility : ClientResponsibility
 	{
 		private readonly ICoordinator coordinator;
+		private readonly ISuspensionMonitor suspensionMonitor;
 		private readonly IText text;
 		private readonly Timer timer;
 
 		private IIntegrityModule IntegrityModule => Context.IntegrityModule;
 
-		public IntegrityResponsibility(ClientContext context, ICoordinator coordinator, ILogger logger, IText text) : base(context, logger)
+		public IntegrityResponsibility(
+			ClientContext context,
+			ICoordinator coordinator,
+			int interval_ms,
+			ILogger logger,
+			ISuspensionMonitor suspensionMonitor,
+			IText text) : base(context, logger)
 		{
 			this.coordinator = coordinator;
+			this.suspensionMonitor = suspensionMonitor;
 			this.text = text;
-			this.timer = new Timer();
+			this.timer = new Timer(interval_ms);
 		}
 
 		public override void Assume(ClientTask task)
@@ -57,44 +66,58 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void ScheduleIntegrityVerification()
 		{
-			var delay = TimeSpan.FromMinutes(10) + TimeSpan.FromMinutes(new Random().NextDouble() * 5);
+			var random = new Random().NextDouble() * 5;
+			var delay = TimeSpan.FromMinutes(10) + TimeSpan.FromMinutes(random);
 
 			Task.Delay(delay).ContinueWith(_ => VerifyApplicationIntegrity());
 		}
 
 		private void StartIntegrityMonitoring()
 		{
-			const int FIVE_SECONDS = 5000;
+			suspensionMonitor.SuspensionDetected += SuspensionMonitor_SuspensionDetected;
+			suspensionMonitor.Start();
 
 			timer.AutoReset = false;
-			timer.Interval = FIVE_SECONDS;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 
-			Logger.Info("Started monitoring runtime integrity.");
+			Logger.Info("Started monitoring integrity.");
 		}
 
 		private void StopIntegrityMonitoring()
 		{
+			suspensionMonitor.Stop();
+			suspensionMonitor.SuspensionDetected -= SuspensionMonitor_SuspensionDetected;
+
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
 
-			Logger.Info("Stopped monitoring runtime integrity.");
+			Logger.Info("Stopped monitoring integrity.");
+		}
+
+		private void SuspensionMonitor_SuspensionDetected()
+		{
+			if (coordinator.RequestSessionLock())
+			{
+				Logger.Warn("Application has been suspended!");
+
+				ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationSuspensionMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+
+				Logger.Info("Attempting to shutdown due to application suspension...");
+				TryRequestShutdown();
+
+				coordinator.ReleaseSessionLock();
+			}
+			else
+			{
+				Logger.Warn($"Application has been suspended but lock screen is already active!");
+				Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => SuspensionMonitor_SuspensionDetected());
+			}
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			Logger.Debug("Attempting to verify runtime integrity...");
-
-			if (IntegrityModule.TryVerifyRuntimeIntegrity(out var isValid))
-			{
-				HandleRuntimeIntegrityStatus(isValid);
-			}
-			else
-			{
-				Logger.Warn("Failed to verify runtime integrity!");
-			}
-
+			VerifyRuntimeIntegrity();
 			timer.Start();
 		}
 
@@ -112,13 +135,27 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			Logger.Info($"Attempting to verify application integrity...");
 
-			if (IntegrityModule.TryVerifyCodeSignature(out var isValid))
+			if (IntegrityModule.TryVerifyApplicationIntegrity(out var isValid))
 			{
 				HandleApplicationIntegrityStatus(isValid);
 			}
 			else
 			{
 				Logger.Warn("Failed to verify application integrity!");
+			}
+		}
+
+		private void VerifyRuntimeIntegrity()
+		{
+			Logger.Debug("Attempting to verify runtime integrity...");
+
+			if (IntegrityModule.TryVerifyRuntimeIntegrity(out var violations))
+			{
+				HandleRuntimeIntegrityStatus(violations);
+			}
+			else
+			{
+				Logger.Warn("Failed to verify runtime integrity!");
 			}
 		}
 
@@ -161,25 +198,33 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 		}
 
-		private void HandleRuntimeIntegrityStatus(bool isValid)
+		private void HandleRuntimeIntegrityStatus(RuntimeIntegrityViolation violations)
 		{
-			if (isValid)
+			if (violations == RuntimeIntegrityViolation.None)
 			{
 				Logger.Debug("Runtime integrity successfully verified.");
 			}
-			else if (coordinator.RequestSessionLock())
+			else if (violations.HasFlag(RuntimeIntegrityViolation.Behavior) && coordinator.RequestSessionLock())
 			{
-				Logger.Warn("Runtime integrity is compromised!");
+				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
 
 				Task.Run(() =>
 				{
 					ShowLockScreen(text.Get(TextKey.LockScreen_RuntimeIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+
+					Logger.Info("Attempting to shutdown due to runtime integrity violation...");
+					TryRequestShutdown();
+
 					coordinator.ReleaseSessionLock();
 				});
 			}
+			else if (coordinator.IsSessionLocked())
+			{
+				Logger.Warn($"Runtime integrity is compromised ({violations:G}) but lock screen is already active!");
+			}
 			else
 			{
-				Logger.Warn("Runtime integrity is compromised but lock screen is already active!");
+				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
 			}
 		}
 

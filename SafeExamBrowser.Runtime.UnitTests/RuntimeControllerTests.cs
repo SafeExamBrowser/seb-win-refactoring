@@ -58,6 +58,16 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
+		public void Shutdown_MustDelegateErrorOnFailure()
+		{
+			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Failed);
+
+			sut.Terminate();
+
+			responsibilities.Verify(r => r.Delegate(RuntimeTask.ShowShutdownError), Times.Once);
+		}
+
+		[TestMethod]
 		public void Shutdown_MustStopSessionThenRevertBootstrapSequence()
 		{
 			var order = 0;

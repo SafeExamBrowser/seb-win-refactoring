@@ -15,8 +15,8 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Responsibilities;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 {
@@ -24,9 +24,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 	public class ErrorMessageResponsibilityTests
 	{
 		private AppConfig appConfig;
+		private Mock<IErrorDialog> errorDialog;
 		private Mock<ILogger> logger;
 		private Mock<IMailClient> mailClient;
-		private Mock<IMessageBox> messageBox;
 		private RuntimeContext context;
 		private Mock<IRuntimeWindow> runtimeWindow;
 		private Mock<ISplashScreen> splashScreen;
@@ -45,102 +45,75 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 				RuntimeLogFilePath = @"C:\Logs\Runtime.log",
 				ServiceLogFilePath = @"C:\Logs\Service.log"
 			};
+			context = new RuntimeContext();
+			errorDialog = new Mock<IErrorDialog>();
 			logger = new Mock<ILogger>();
 			mailClient = new Mock<IMailClient>();
-			messageBox = new Mock<IMessageBox>();
-			context = new RuntimeContext();
 			runtimeWindow = new Mock<IRuntimeWindow>();
 			splashScreen = new Mock<ISplashScreen>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			text.Setup(t => t.Get(It.IsAny<TextKey>())).Returns<TextKey>(key => key.ToString());
+			uiFactory.Setup(f => f.CreateErrorDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<Action>(), It.IsAny<bool>(), It.IsAny<string[]>())).Returns(errorDialog.Object);
 
 			sut = new ErrorMessageResponsibility(appConfig, logger.Object, mailClient.Object, context, runtimeWindow.Object, splashScreen.Object, text.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
-		public void MustShowMessageBoxForStartupError()
+		public void MustShowErrorDialogForApplicationCrash()
 		{
-			sut.Assume(RuntimeTask.ShowStartupError);
+			sut.TryAssume<string[], ErrorDialogResult>(RuntimeTask.ShowCrashMessage, Array.Empty<string>(), out _);
 
-			messageBox.Verify(m => m.Show(
-				It.Is<string>(message => message.Contains(TextKey.ErrorDialog_StartupMessage.ToString())),
-				It.Is<string>(title => title == TextKey.ErrorDialog_StartupTitle.ToString()),
-				It.IsAny<MessageBoxAction>(),
-				It.Is<MessageBoxIcon>(icon => icon == MessageBoxIcon.Error),
-				It.IsAny<IWindow>()), Times.Once);
+			errorDialog.Verify(d => d.Show(It.Is<IWindow>(parent => parent == splashScreen.Object)));
+			uiFactory.Verify(f => f.CreateErrorDialog(
+				It.Is<TextKey>(m => m == TextKey.ErrorDialog_CrashMessage),
+				It.Is<TextKey>(t => t == TextKey.ErrorDialog_CrashTitle),
+				It.IsAny<Action>(),
+				It.IsAny<bool>(),
+				It.IsAny<string[]>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustShowMessageBoxForShutdownError()
+		public void MustShowErrorDialogForSessionStartError()
+		{
+			sut.Assume(RuntimeTask.ShowSessionStartError);
+
+			errorDialog.Verify(d => d.Show(It.Is<IWindow>(parent => parent == runtimeWindow.Object)));
+			uiFactory.Verify(f => f.CreateErrorDialog(
+				It.Is<TextKey>(m => m == TextKey.ErrorDialog_SessionStartMessage),
+				It.Is<TextKey>(t => t == TextKey.ErrorDialog_SessionStartTitle),
+				It.IsAny<Action>(),
+				It.IsAny<bool>(),
+				It.IsAny<string[]>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustShowErrorDialogForShutdownError()
 		{
 			sut.Assume(RuntimeTask.ShowShutdownError);
 
-			messageBox.Verify(m => m.Show(
-				It.Is<string>(message => message.Contains(TextKey.ErrorDialog_ShutdownMessage.ToString())),
-				It.Is<string>(title => title == TextKey.ErrorDialog_ShutdownTitle.ToString()),
-				It.IsAny<MessageBoxAction>(),
-				It.Is<MessageBoxIcon>(icon => icon == MessageBoxIcon.Error),
-				It.IsAny<IWindow>()), Times.Once);
+			errorDialog.Verify(d => d.Show(It.Is<IWindow>(parent => parent == splashScreen.Object)));
+			uiFactory.Verify(f => f.CreateErrorDialog(
+				It.Is<TextKey>(m => m == TextKey.ErrorDialog_ShutdownMessage),
+				It.Is<TextKey>(t => t == TextKey.ErrorDialog_ShutdownTitle),
+				It.IsAny<Action>(),
+				It.IsAny<bool>(),
+				It.IsAny<string[]>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustUseSplashScreenAsParentForStartupError()
+		public void MustShowErrorDialogForStartupError()
 		{
 			sut.Assume(RuntimeTask.ShowStartupError);
 
-			messageBox.Verify(m => m.Show(
-				It.IsAny<string>(),
-				It.IsAny<string>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.Is<IWindow>(parent => parent == splashScreen.Object)), Times.Once);
-		}
-
-		[TestMethod]
-		public void MustUseSplashScreenAsParentForShutdownError()
-		{
-			sut.Assume(RuntimeTask.ShowShutdownError);
-
-			messageBox.Verify(m => m.Show(
-				It.IsAny<string>(),
-				It.IsAny<string>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.Is<IWindow>(parent => parent == splashScreen.Object)), Times.Once);
-		}
-
-		[TestMethod]
-		public void MustRetrieveLocalizedTextForStartupError()
-		{
-			sut.Assume(RuntimeTask.ShowStartupError);
-
-			text.Verify(t => t.Get(TextKey.ErrorDialog_StartupMessage), Times.Once);
-			text.Verify(t => t.Get(TextKey.ErrorDialog_StartupTitle), Times.Once);
-		}
-
-		[TestMethod]
-		public void MustRetrieveLocalizedTextForShutdownError()
-		{
-			sut.Assume(RuntimeTask.ShowShutdownError);
-
-			text.Verify(t => t.Get(TextKey.ErrorDialog_ShutdownMessage), Times.Once);
-			text.Verify(t => t.Get(TextKey.ErrorDialog_ShutdownTitle), Times.Once);
-		}
-
-		[TestMethod]
-		public void MustIgnoreUnrelatedTasks()
-		{
-			foreach (var task in (RuntimeTask[]) Enum.GetValues(typeof(RuntimeTask)))
-			{
-				if (task != RuntimeTask.ShowStartupError && task != RuntimeTask.ShowShutdownError)
-				{
-					sut.Assume(task);
-				}
-			}
-
-			messageBox.VerifyNoOtherCalls();
+			errorDialog.Verify(d => d.Show(It.Is<IWindow>(parent => parent == splashScreen.Object)));
+			uiFactory.Verify(f => f.CreateErrorDialog(
+				It.Is<TextKey>(m => m == TextKey.ErrorDialog_StartupMessage),
+				It.Is<TextKey>(t => t == TextKey.ErrorDialog_StartupTitle),
+				It.IsAny<Action>(),
+				It.IsAny<bool>(),
+				It.IsAny<string[]>()), Times.Once);
 		}
 	}
 }

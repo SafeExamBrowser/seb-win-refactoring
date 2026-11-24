@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\InputProfileActivatedEventHandler.cs" />
     <Compile Include="Events\KeyboardHookCallback.cs" />
     <Compile Include="Events\KeyModifier.cs" />
     <Compile Include="Events\KeyState.cs" />
@@ -74,8 +75,11 @@
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessFactory.cs" />
     <Compile Include="IStickyKeysState.cs" />
+    <Compile Include="IInputProfile.cs" />
+    <Compile Include="ITextService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IWindowStyle.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

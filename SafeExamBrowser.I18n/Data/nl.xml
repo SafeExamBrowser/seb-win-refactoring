@@ -114,6 +114,21 @@
     <Entry key="CredentialsDialog_WirelessNetworkTitle">
         Netwerkverificatie vereist
     </Entry>
+    <Entry key="ErrorDialog_CrashMessage">
+        SEB lijkt tijdens een vorige sessie te zijn gecrasht. Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="ErrorDialog_CrashTitle">
+        Fout in vorige sessie
+    </Entry>
+    <Entry key="ErrorDialog_IgnoreCrash">
+        Dit bericht niet meer weergeven
+    </Entry>
+    <Entry key="ErrorDialog_Ok">
+        OK
+    </Entry>
+    <Entry key="ErrorDialog_SendMail">
+        Logbestanden via e-mail verzenden
+    </Entry>
     <Entry key="ErrorDialog_SessionStartMessage">
         SEB is er niet in geslaagd een nieuwe sessie te starten! Raadpleeg de logbestanden voor meer informatie.
     </Entry>
@@ -185,6 +200,9 @@
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         U gebruikt een onofficiële SEB versie! Zorg ervoor dat u een officiële Safe Exam Browser gebruikt. Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
+    </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser is onderbroken! Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Sta tijdelijk de applicaties toe die op de zwarte lijst staan. Dit geldt alleen voor de huidige instanties en sessie!
@@ -487,7 +505,7 @@
         Geen internet verbinding
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        De geïnstalleerde SEB-versie %%_VERSIE_%% kan niet worden gebruikt omdat de geselecteerde configuratie een specifieke versie vereist:%%_REQUIRED_VERSIONS_%% Download en installeer de vereiste versie van de officiële website (safeexambrowser.org/download) of van de repository van SEB op GitHub (github.com/safeexambrowser).
+        De geïnstalleerde SEB-versie %%_VERSION_%% kan niet worden gebruikt omdat de geselecteerde configuratie een specifieke versie vereist:%%_REQUIRED_VERSIONS_%% Download en installeer de vereiste versie van de officiële website (safeexambrowser.org/download) of van de repository van SEB op GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
         Ongeldige SEB versie
@@ -660,7 +678,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Beleid voor virtuele machines aan het valideren
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Integriteit aan het verifiëren
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

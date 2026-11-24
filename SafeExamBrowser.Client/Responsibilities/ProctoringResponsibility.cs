@@ -55,7 +55,10 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void DeregisterEvents()
 		{
-			Proctoring.InitializationFailed -= Proctoring_InitializationFailed;
+			if (Proctoring != default)
+			{
+				Proctoring.InitializationFailed -= Proctoring_InitializationFailed;
+			}
 		}
 
 		private void FinalizeProctoring()

@@ -39,6 +39,7 @@ using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
+using SafeExamBrowser.Monitoring.Suspension;
 using SafeExamBrowser.Monitoring.System;
 using SafeExamBrowser.Proctoring;
 using SafeExamBrowser.Server;
@@ -63,6 +64,7 @@ using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Processes;
+using SafeExamBrowser.WindowsApi.TextServices;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
 using Mobile = SafeExamBrowser.UserInterface.Mobile;
 
@@ -129,9 +131,10 @@ namespace SafeExamBrowser.Client
 			var fileSystemDialog = BuildFileSystemDialog();
 			var runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, new Registry(ModuleLogger(nameof(Registry))));
+			var suspensionMonitor = new SuspensionMonitor(ModuleLogger(nameof(SuspensionMonitor)), nativeMethods);
 
 			var operations = BuildOperations(applicationFactory, clipboard, displayMonitor, fileSystemDialog, runtimeProxy);
-			var responsibilities = BuildResponsibilities(coordinator, displayMonitor, explorerShell, runtimeProxy, sentinel, shutdown);
+			var responsibilities = BuildResponsibilities(coordinator, displayMonitor, explorerShell, runtimeProxy, suspensionMonitor, sentinel, shutdown);
 
 			context.HashAlgorithm = new HashAlgorithm();
 			context.MessageBox = messageBox;
@@ -174,7 +177,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
 			operations.Enqueue(new PermissionOperation(context, logger, networkAdapter));
-			operations.Enqueue(new ApplicationOperation(context, applicationFactory, fileSystemDialog, logger, messageBox, applicationMonitor, splashScreen, text));
+			operations.Enqueue(new ApplicationsOperation(context, applicationFactory, fileSystemDialog, logger, messageBox, applicationMonitor, splashScreen, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
@@ -190,6 +193,7 @@ namespace SafeExamBrowser.Client
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
 			IRuntimeProxy runtimeProxy,
+			ISuspensionMonitor suspensionMonitor,
 			ISystemSentinel sentinel,
 			Action shutdown)
 		{
@@ -198,7 +202,7 @@ namespace SafeExamBrowser.Client
 			responsibilities.Enqueue(new ApplicationsResponsibility(context, ModuleLogger(nameof(ApplicationsResponsibility))));
 			responsibilities.Enqueue(new BrowserResponsibility(context, coordinator, ModuleLogger(nameof(BrowserResponsibility)), messageBox, runtimeProxy, splashScreen, taskbar));
 			responsibilities.Enqueue(new CommunicationResponsibility(context, coordinator, ModuleLogger(nameof(CommunicationResponsibility)), messageBox, runtimeProxy, shutdown, splashScreen, text, uiFactory));
-			responsibilities.Enqueue(new IntegrityResponsibility(context, coordinator, ModuleLogger(nameof(IntegrityResponsibility)), text));
+			responsibilities.Enqueue(new IntegrityResponsibility(context, coordinator, FIVE_SECONDS, ModuleLogger(nameof(IntegrityResponsibility)), suspensionMonitor, text));
 			responsibilities.Enqueue(new MonitoringResponsibility(actionCenter, applicationMonitor, context, coordinator, displayMonitor, explorerShell, ModuleLogger(nameof(MonitoringResponsibility)), sentinel, taskbar, text));
 			responsibilities.Enqueue(new NetworkResponsibility(context, ModuleLogger(nameof(NetworkResponsibility)), networkAdapter, text, uiFactory));
 			responsibilities.Enqueue(new ProctoringResponsibility(context, ModuleLogger(nameof(ProctoringResponsibility)), messageBox, uiFactory));
@@ -352,7 +356,7 @@ namespace SafeExamBrowser.Client
 		{
 			var aboutNotification = new AboutNotification(context.AppConfig, text, uiFactory);
 			var audio = new Audio(context.Settings.Audio, ModuleLogger(nameof(Audio)));
-			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
+			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)), new TextService());
 			var logNotification = new LogNotification(logger, text, uiFactory);
 			var verificator = new Verificator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(Verificator)), messageBox, systemInfo, text, uiFactory);
 			var verificatorNotification = new VerificatorNotification(text, verificator);

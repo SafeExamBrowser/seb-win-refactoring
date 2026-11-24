@@ -262,8 +262,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\ClientBridgeTests.cs" />
-    <Compile Include="Operations\Bootstrap\ApplicationIntegrityOperationTests.cs" />
+    <Compile Include="CompositionRootTests.cs" />
+    <Compile Include="Operations\Bootstrap\IntegrityOperationTests.cs" />
     <Compile Include="Operations\Bootstrap\BootstrapOperationSequenceTests.cs" />
+    <Compile Include="Operations\Bootstrap\CrashLogOperationTests.cs" />
     <Compile Include="Operations\Session\ClientTerminationOperationTests.cs" />
     <Compile Include="Operations\Session\ConfigurationOperationTests.cs" />
     <Compile Include="Operations\Session\DisclaimerOperationTests.cs" />
@@ -277,11 +279,13 @@
     <Compile Include="Operations\Session\SessionInitializationOperationTests.cs" />
     <Compile Include="Operations\Session\SessionIntegrityOperationTests.cs" />
     <Compile Include="Operations\Session\SessionOperationSequenceTests.cs" />
+    <Compile Include="Operations\Session\SessionOperationTests.cs" />
     <Compile Include="Operations\Session\VersionRestrictionOperationTests.cs" />
     <Compile Include="Operations\Session\VirtualMachineOperationTests.cs" />
     <Compile Include="Responsibilities\ClientResponsibilityTests.cs" />
     <Compile Include="Responsibilities\CommunicationResponsibilityTests.cs" />
     <Compile Include="Responsibilities\ErrorMessageResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\IntegrityResponsibilityTests.cs" />
     <Compile Include="Responsibilities\ServiceResponsibilityTests.cs" />
     <Compile Include="Responsibilities\SessionResponsibilityTests.cs" />
     <Compile Include="RuntimeControllerTests.cs" />

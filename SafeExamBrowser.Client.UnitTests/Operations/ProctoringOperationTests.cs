@@ -11,6 +11,7 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Settings;
@@ -62,6 +63,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeProctoringCorrectly()
 		{
+			controller.Setup(c => c.Initialize(It.IsAny<ProctoringSettings>())).Returns(true);
 			settings.Proctoring.Enabled = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 
@@ -74,6 +76,16 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			taskbar.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
 			uiFactory.Verify(u => u.CreateNotificationControl(It.IsAny<INotification>(), Location.ActionCenter), Times.Exactly(2));
 			uiFactory.Verify(u => u.CreateNotificationControl(It.IsAny<INotification>(), Location.Taskbar), Times.Exactly(2));
+		}
+
+		[TestMethod]
+		public void Perform_MustFailIfProctoringInitializationFails()
+		{
+			controller.Setup(c => c.Initialize(It.IsAny<ProctoringSettings>())).Returns(false);
+			settings.Proctoring.Enabled = true;
+
+			Assert.AreEqual(OperationResult.Failed, sut.Perform());
+			messageBox.Verify(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error), It.IsAny<IWindow>()));
 		}
 
 		[TestMethod]

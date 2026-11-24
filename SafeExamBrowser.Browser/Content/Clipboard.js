@@ -88,8 +88,7 @@ if (typeof cutSelection === 'undefined') {
 if (typeof pasteContent === 'undefined') {
 	function pasteContent(e) {
 		if (e.target.contentEditable && e.target.setRangeText) {
-			e.target.setRangeText("", e.target.selectionStart, e.target.selectionEnd, 'select');
-			e.target.setRangeText(SafeExamBrowser.clipboard.text, e.target.selectionStart, e.target.selectionStart + SafeExamBrowser.clipboard.text.length, 'end');
+			e.target.setRangeText(SafeExamBrowser.clipboard.text, e.target.selectionStart, e.target.selectionEnd, 'end');
 		} else {
 			var targetWindow = e.target.ownerDocument.defaultView;
 			var designMode = e.target.ownerDocument.designMode;
