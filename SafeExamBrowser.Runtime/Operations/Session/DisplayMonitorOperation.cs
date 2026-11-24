@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateDisplayConfiguration);
 
 			var validation = displayMonitor.ValidateConfiguration(Context.Next.Settings.Display);
-			var result = validation.IsAllowed ? OperationResult.Success : OperationResult.Failed;
+			var result = OperationResult.Success;
 
 			if (validation.IsAllowed)
 			{
@@ -58,6 +58,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			{
 				Logger.Error("Display configuration is not allowed!");
 				ShowError(validation);
+				result = validation.HasProhibitedDisplay ? OperationResult.Aborted : OperationResult.Failed;
 			}
 
 			return result;
@@ -66,7 +67,6 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 		private void ShowError(ValidationResult validation)
 		{
 			var internalOnly = Text.Get(TextKey.MessageBox_DisplayConfigurationInternal);
-			var internalOrExternal = Text.Get(TextKey.MessageBox_DisplayConfigurationInternalOrExternal);
 			var message = TextKey.MessageBox_DisplayConfigurationError;
 			var title = TextKey.MessageBox_DisplayConfigurationErrorTitle;
 			var placeholders = new Dictionary<string, string>
@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				{ "%%_ALLOWED_COUNT_%%", Convert.ToString(Context.Next.Settings.Display.AllowedDisplays) },
 				{ "%%_EXTERNAL_COUNT_%%", Convert.ToString(validation.ExternalDisplays) },
 				{ "%%_INTERNAL_COUNT_%%", Convert.ToString(validation.InternalDisplays) },
-				{ "%%_TYPE_%%", Context.Next.Settings.Display.InternalDisplayOnly ? internalOnly : internalOrExternal }
+				{ "%%_TYPE_%%", internalOnly }
 			};
 
 			ShowMessageBox(message, title, icon: MessageBoxIcon.Error, messagePlaceholders: placeholders);

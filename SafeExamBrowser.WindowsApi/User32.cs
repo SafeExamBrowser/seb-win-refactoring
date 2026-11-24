@@ -20,6 +20,27 @@ namespace SafeExamBrowser.WindowsApi
 	/// </summary>
 	internal static class User32
 	{
+		// Fixed-width fields from DISPLAYCONFIG_PATH_INFO. Windows fills the entire
+		// structure, but only the source identity and target technology are needed.
+		[StructLayout(LayoutKind.Explicit, Size = 72)]
+		internal struct DisplayConfigPath
+		{
+			[FieldOffset(0)] internal long SourceAdapter;
+			[FieldOffset(8)] internal uint SourceId;
+			[FieldOffset(36)] internal int OutputTechnology;
+		}
+
+		// DISPLAYCONFIG_MODE_INFO includes a native union. Its contents are unused.
+		[StructLayout(LayoutKind.Sequential, Size = 64)]
+		internal struct DisplayConfigMode { }
+
+		[DllImport("user32.dll")]
+		internal static extern int GetDisplayConfigBufferSizes(uint flags, out uint pathCount, out uint modeCount);
+
+		[DllImport("user32.dll")]
+		internal static extern int QueryDisplayConfig(uint flags, ref uint pathCount, [Out] DisplayConfigPath[] paths,
+			ref uint modeCount, [Out] DisplayConfigMode[] modes, IntPtr topology);
+
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 

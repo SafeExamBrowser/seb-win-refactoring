@@ -152,6 +152,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		IBounds GetWorkingArea();
 
 		/// <summary>
+		/// Determines whether an active display path is external, cloned or virtual.
+		/// </summary>
+		bool HasProhibitedDisplay();
+
+		/// <summary>
 		/// Determines whether this computer is connected to the internet resp. a local network. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
 		[Obsolete("This native API has proven to be (at least partially) unreliable, consider using the Windows Runtime API instead when checking for an internet connection.")]

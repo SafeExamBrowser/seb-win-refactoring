@@ -69,11 +69,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
-		public void Perform_MustFailIfDisplayConfigurationNotAllowed()
+		[DataRow(false, OperationResult.Failed)]
+		[DataRow(true, OperationResult.Aborted)]
+		public void Perform_MustShowDisplayErrorAndStop(bool prohibitedDisplay, OperationResult expected)
 		{
 			var messageShown = false;
 
-			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
+			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { HasProhibitedDisplay = prohibitedDisplay });
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
@@ -84,7 +86,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			displayMonitor.Verify(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>()), Times.Once);
 
 			Assert.IsTrue(messageShown);
-			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.AreEqual(expected, result);
 		}
 
 		[TestMethod]
@@ -99,11 +101,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
-		public void Repeat_MustFailIfDisplayConfigurationNotAllowed()
+		[DataRow(false, OperationResult.Failed)]
+		[DataRow(true, OperationResult.Aborted)]
+		public void Repeat_MustShowDisplayErrorAndStop(bool prohibitedDisplay, OperationResult expected)
 		{
 			var messageShown = false;
 
-			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
+			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { HasProhibitedDisplay = prohibitedDisplay });
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
@@ -114,7 +118,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			displayMonitor.Verify(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>()), Times.Once);
 
 			Assert.IsTrue(messageShown);
-			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.AreEqual(expected, result);
 		}
 
 		[TestMethod]

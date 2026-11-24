@@ -315,6 +315,57 @@ namespace SafeExamBrowser.WindowsApi
 			return string.Empty;
 		}
 
+		public bool HasProhibitedDisplay()
+		{
+			const uint onlyActivePaths = 2;
+			const int insufficientBuffer = 122;
+			const int lvds = 6, embeddedDisplayPort = 11, embeddedUdi = 13, internalPanel = int.MinValue;
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var error = User32.GetDisplayConfigBufferSizes(onlyActivePaths, out var pathCount, out var modeCount);
+
+				if (error != 0)
+				{
+					throw new Win32Exception(error);
+				}
+
+				var paths = new User32.DisplayConfigPath[pathCount];
+				var modes = new User32.DisplayConfigMode[modeCount];
+
+				error = User32.QueryDisplayConfig(onlyActivePaths, ref pathCount, paths, ref modeCount, modes, IntPtr.Zero);
+
+				if (error == insufficientBuffer)
+				{
+					continue; // The topology changed between the two calls.
+				}
+
+				if (error != 0)
+				{
+					throw new Win32Exception(error);
+				}
+
+				var sources = new HashSet<(long, uint)>();
+
+				for (var index = 0; index < pathCount; index++)
+				{
+					var path = paths[index];
+
+					var technology = path.OutputTechnology;
+					var isInternal = technology == internalPanel || technology == embeddedDisplayPort || technology == embeddedUdi || technology == lvds;
+
+					if (!isInternal || !sources.Add((path.SourceAdapter, path.SourceId)))
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			throw new Win32Exception(insufficientBuffer);
+		}
+
 		public IBounds GetWorkingArea()
 		{
 			var workingArea = new RECT();

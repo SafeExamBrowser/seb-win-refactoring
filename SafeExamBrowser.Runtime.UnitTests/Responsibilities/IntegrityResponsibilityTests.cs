@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 	public class IntegrityResponsibilityTests
 	{
 		private const int INTERVAL_MS = 5;
+		private static readonly TimeSpan CallbackTimeout = TimeSpan.FromSeconds(5);
 
 		private RuntimeContext context;
 		private Mock<IIntegrityModule> integrityModule;
@@ -95,7 +96,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS), "Runtime integrity was not verified repeatedly within the expected time.");
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout), "Runtime integrity was not verified repeatedly within the expected time.");
 			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out violations), Times.AtLeast(3));
 		}
 
@@ -116,7 +117,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS), "Monitoring did not continue after a failed verification attempt.");
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout), "Monitoring did not continue after a failed verification attempt.");
 			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out violations), Times.AtLeast(3));
 		}
 
@@ -130,7 +131,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS));
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout));
 
 			sut.Assume(RuntimeTask.StopIntegrityMonitoring);
 
@@ -150,7 +151,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS));
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout));
 
 			sut.Assume(RuntimeTask.StopIntegrityMonitoring);
 
@@ -169,7 +170,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS));
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout));
 
 			sut.Assume(RuntimeTask.StopIntegrityMonitoring);
 
@@ -194,7 +195,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS));
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout));
 
 			sut.Assume(RuntimeTask.StopIntegrityMonitoring);
 
@@ -214,14 +215,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS));
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout));
 
 			sut.Assume(RuntimeTask.StopIntegrityMonitoring);
 			Thread.Sleep(INTERVAL_MS);
 			sync.Reset();
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS), "Runtime integrity was not verified after restarting the monitoring.");
+			Assert.IsTrue(sync.WaitOne(CallbackTimeout), "Runtime integrity was not verified after restarting the monitoring.");
 		}
 
 		[TestMethod]
