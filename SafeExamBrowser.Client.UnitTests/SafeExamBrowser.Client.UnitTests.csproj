@@ -274,6 +274,7 @@
     <Compile Include="Operations\ClientHostDisconnectionOperationTests.cs" />
     <Compile Include="Operations\ClipboardOperationTests.cs" />
     <Compile Include="Operations\ConfigurationOperationTests.cs" />
+    <Compile Include="DisplayMonitorTests.cs" />
     <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperationTests.cs" />
     <Compile Include="Operations\MouseInterceptorOperationTests.cs" />
@@ -348,6 +349,10 @@
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
+      <Project>{EF563531-4EB5-44B9-A5EC-D6D6F204469B}</Project>
+      <Name>SafeExamBrowser.Monitoring</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Monitoring.Contracts\SafeExamBrowser.Monitoring.Contracts.csproj">
       <Project>{6d563a30-366d-4c35-815b-2c9e6872278b}</Project>
       <Name>SafeExamBrowser.Monitoring.Contracts</Name>
@@ -371,6 +376,10 @@
     <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
       <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>
       <Name>SafeExamBrowser.UserInterface.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
+      <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>
+      <Name>SafeExamBrowser.WindowsApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
       <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>

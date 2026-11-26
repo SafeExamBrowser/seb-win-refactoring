@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Management;
 using System.Threading.Tasks;
@@ -68,16 +69,36 @@ namespace SafeExamBrowser.Monitoring.Display
 		{
 			var result = new ValidationResult();
 
-			if (TryLoadDisplays(out var displays))
+			bool? prohibitedDisplay = null;
+
+			try
+			{
+				prohibitedDisplay = nativeMethods.HasProhibitedDisplay();
+			}
+			catch (Win32Exception e)
+			{
+				logger.Error("Failed to query active display paths!", e);
+			}
+
+			var loaded = TryLoadDisplays(out var displays, out var hasSoftwareDisplay);
+			result.HasProhibitedDisplay = prohibitedDisplay == true || hasSoftwareDisplay == true || displays.Any(d => d.IsActive && (d.Technology == VideoOutputTechnology.MiraCast || d.Technology == VideoOutputTechnology.IndirectVirtual));
+
+			if (result.HasProhibitedDisplay)
+			{
+				logger.Warn("Detected a wireless or virtual display.");
+			}
+
+			if (loaded)
 			{
 				var active = displays.Where(d => d.IsActive);
 				var count = active.Count();
 				var hasAllowedCount = count <= settings.AllowedDisplays;
-				var hasAllowedTypes = !settings.InternalDisplayOnly || active.All(d => d.IsInternal);
+				var complete = active.All(d => d.Technology != VideoOutputTechnology.Uninitialized);
+				var pathsAllowed = settings.IgnoreError || (prohibitedDisplay.HasValue && hasSoftwareDisplay.HasValue && complete);
 
-				result.ExternalDisplays = active.Count(d => !d.IsInternal);
+				result.ExternalDisplays = active.Count(d => d.Technology != VideoOutputTechnology.Uninitialized && !d.IsInternal);
 				result.InternalDisplays = active.Count(d => d.IsInternal);
-				result.IsAllowed = hasAllowedCount && hasAllowedTypes;
+				result.IsAllowed = (!settings.InternalDisplayOnly || result.ExternalDisplays == 0) && hasAllowedCount && !result.HasProhibitedDisplay && pathsAllowed;
 
 				if (result.IsAllowed)
 				{
@@ -90,18 +111,14 @@ namespace SafeExamBrowser.Monitoring.Display
 						logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
 					}
 
-					if (!hasAllowedTypes)
-					{
-						logger.Warn("Detected external display(s) but only internal displays are allowed!");
-					}
-
 					logger.Warn("Display configuration is not valid!");
 				}
 			}
 			else
 			{
-				result.IsAllowed = settings.IgnoreError;
-				logger.Warn($"Failed to validate display configuration{(result.IsAllowed ? ", ignoring error." : " and errors are not allowed!")}");
+				result.IsAllowed = settings.IgnoreError && !result.HasProhibitedDisplay;
+
+				logger.Warn($"Failed to load monitor information. Display configuration is {(result.IsAllowed ? "allowed" : "rejected")}.");
 			}
 
 			return result;
@@ -153,11 +170,21 @@ namespace SafeExamBrowser.Monitoring.Display
 			}
 		}
 
-		private bool TryLoadDisplays(out IList<Display> displays)
+		internal virtual bool TryLoadDisplays(out IList<Display> displays, out bool? hasSoftwareDisplay)
 		{
 			var success = true;
 
 			displays = new List<Display>();
+			hasSoftwareDisplay = null;
+
+			try
+			{
+				hasSoftwareDisplay = HasSoftwareDisplayWithCurrentMode();
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to query indirect display adapters!", e);
+			}
 
 			try
 			{
@@ -214,6 +241,38 @@ namespace SafeExamBrowser.Monitoring.Display
 			}
 
 			return success;
+		}
+
+		private bool HasSoftwareDisplayWithCurrentMode()
+		{
+			const string query = "SELECT PNPDeviceID FROM Win32_VideoController WHERE ConfigManagerErrorCode = 0 AND CurrentHorizontalResolution > 0 AND CurrentVerticalResolution > 0";
+
+			using (var searcher = new ManagementObjectSearcher(query))
+			using (var controllers = searcher.Get())
+			{
+				foreach (ManagementObject controller in controllers)
+				{
+					using (controller)
+					{
+						var id = controller["PNPDeviceID"] as string;
+
+						if (id?.StartsWith(@"SWD\", StringComparison.OrdinalIgnoreCase) == true)
+						{
+							using (var device = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\{id}"))
+							{
+								var filters = device?.GetValue("UpperFilters") as string[];
+
+								if (filters?.Contains("IndirectKmd", StringComparer.OrdinalIgnoreCase) == true)
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return false;
 		}
 
 		private void ResetWorkingArea()

@@ -355,7 +355,7 @@
         Download Error
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        The active display configuration is not permitted. %%_ALLOWED_COUNT_%% %%_TYPE_%% display(s) are allowed, but %%_INTERNAL_COUNT_%% internal and %%_EXTERNAL_COUNT_%% external display(s) were detected. Please consult the log files for more information. SEB will now shut down...
+        This exam allows up to %%_ALLOWED_COUNT_%% %%_TYPE_%% display(s). Wireless and virtual displays are prohibited. Check the display configuration before restarting SEB.
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Prohibited Display Configuration

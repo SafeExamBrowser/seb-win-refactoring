@@ -24,6 +24,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Display
 		public int InternalDisplays { get; set; }
 
 		/// <summary>
+		/// Indicates whether an active wireless or virtual display is detected.
+		/// </summary>
+		public bool HasProhibitedDisplay { get; set; }
+
+		/// <summary>
 		/// Indicates whether the active display configuration is allowed.
 		/// </summary>
 		public bool IsAllowed { get; set; }
