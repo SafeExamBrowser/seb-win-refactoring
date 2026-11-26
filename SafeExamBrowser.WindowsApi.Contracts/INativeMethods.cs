@@ -152,7 +152,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		IBounds GetWorkingArea();
 
 		/// <summary>
-		/// Determines whether an active display path is external, cloned or virtual.
+		/// Determines whether an active display path is wireless or virtual.
 		/// </summary>
 		bool HasProhibitedDisplay();
 

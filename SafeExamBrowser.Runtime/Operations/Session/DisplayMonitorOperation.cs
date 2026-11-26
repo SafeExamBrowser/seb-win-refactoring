@@ -29,12 +29,12 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 		public override OperationResult Perform()
 		{
-			return CheckDisplayConfiguration();
+			return CheckDisplayConfiguration(initialStartup: true);
 		}
 
 		public override OperationResult Repeat()
 		{
-			return CheckDisplayConfiguration();
+			return CheckDisplayConfiguration(initialStartup: false);
 		}
 
 		public override OperationResult Revert()
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			return OperationResult.Success;
 		}
 
-		private OperationResult CheckDisplayConfiguration()
+		private OperationResult CheckDisplayConfiguration(bool initialStartup)
 		{
 			Logger.Info("Validating display configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateDisplayConfiguration);
@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			{
 				Logger.Error("Display configuration is not allowed!");
 				ShowError(validation);
-				result = validation.HasProhibitedDisplay ? OperationResult.Aborted : OperationResult.Failed;
+				result = initialStartup && validation.HasProhibitedDisplay ? OperationResult.Aborted : OperationResult.Failed;
 			}
 
 			return result;
@@ -66,7 +66,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 		private void ShowError(ValidationResult validation)
 		{
-			var internalOnly = Text.Get(TextKey.MessageBox_DisplayConfigurationInternal);
+			var allowedType = Text.Get(Context.Next.Settings.Display.InternalDisplayOnly ? TextKey.MessageBox_DisplayConfigurationInternal : TextKey.MessageBox_DisplayConfigurationInternalOrExternal);
 			var message = TextKey.MessageBox_DisplayConfigurationError;
 			var title = TextKey.MessageBox_DisplayConfigurationErrorTitle;
 			var placeholders = new Dictionary<string, string>
@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				{ "%%_ALLOWED_COUNT_%%", Convert.ToString(Context.Next.Settings.Display.AllowedDisplays) },
 				{ "%%_EXTERNAL_COUNT_%%", Convert.ToString(validation.ExternalDisplays) },
 				{ "%%_INTERNAL_COUNT_%%", Convert.ToString(validation.InternalDisplays) },
-				{ "%%_TYPE_%%", internalOnly }
+				{ "%%_TYPE_%%", allowedType }
 			};
 
 			ShowMessageBox(message, title, icon: MessageBoxIcon.Error, messagePlaceholders: placeholders);

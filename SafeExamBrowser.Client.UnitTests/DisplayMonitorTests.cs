@@ -24,10 +24,10 @@ namespace SafeExamBrowser.Client.UnitTests
 		[DataRow(15, true, 2, false, true, false)]
 		[DataRow(17, true, 2, false, true, false)]
 		[DataRow(17, false, 1, true, false, true)]
-		[DataRow(16, true, 2, false, true, false)]
-		[DataRow(5, true, 2, false, true, false)]
-		[DataRow(5, true, 1, false, true, false)]
-		[DataRow(5, true, 2, true, true, false)]
+		[DataRow(16, true, 2, false, false, true)]
+		[DataRow(5, true, 2, false, false, true)]
+		[DataRow(5, true, 1, false, false, false)]
+		[DataRow(5, true, 2, true, false, false)]
 		public void ValidateConfiguration_ClassifiesActiveOutputs(int technology, bool active, int limit, bool internalOnly, bool hasProhibitedDisplay, bool allowed)
 		{
 			var displays = new[]
@@ -74,8 +74,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		[DataRow(6, 1, 1, false)]
 		[DataRow(11, 1, 1, false)]
 		[DataRow(13, 2, 0, false)]
-		[DataRow(int.MinValue, 1, 0, true)]
-		[DataRow(5, 2, 1, true)]
+		[DataRow(int.MinValue, 1, 0, false)]
+		[DataRow(5, 2, 1, false)]
 		[DataRow(17, 2, 1, true)]
 		public void ActivePaths_CheckOutputTechnologyAndCloneSource(int technology, int adapter, int source, bool prohibited)
 		{
@@ -102,6 +102,29 @@ namespace SafeExamBrowser.Client.UnitTests
 			var result = monitor.ValidateConfiguration(new DisplaySettings { AllowedDisplays = 1, IgnoreError = ignoreError });
 
 			Assert.AreEqual(ignoreError, result.IsAllowed);
+		}
+
+		[TestMethod]
+		[DataRow(true)]
+		[DataRow(false)]
+		public void IncompleteConnectionMetadataUsesErrorPolicy(bool ignoreError)
+		{
+			var monitor = new TestDisplayMonitor(new[] { new Display { IsActive = true } }) { MonitorQuerySucceeded = false };
+			var result = monitor.ValidateConfiguration(new DisplaySettings { AllowedDisplays = 1, IgnoreError = ignoreError });
+
+			Assert.IsFalse(result.HasProhibitedDisplay);
+			Assert.AreEqual(ignoreError, result.IsAllowed);
+		}
+
+		[TestMethod]
+		[DataRow(false, true)]
+		[DataRow(true, false)]
+		public void ExternalOnlyWorkstationFollowsExamSettings(bool internalOnly, bool allowed)
+		{
+			var monitor = new TestDisplayMonitor(new[] { new Display { IsActive = true, Technology = VideoOutputTechnology.HDMI } });
+			var result = monitor.ValidateConfiguration(new DisplaySettings { AllowedDisplays = 1, InternalDisplayOnly = internalOnly });
+
+			Assert.AreEqual(allowed, result.IsAllowed);
 		}
 
 		private sealed class TestDisplayMonitor : DisplayMonitor

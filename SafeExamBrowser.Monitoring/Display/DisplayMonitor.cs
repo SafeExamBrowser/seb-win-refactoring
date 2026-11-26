@@ -81,11 +81,11 @@ namespace SafeExamBrowser.Monitoring.Display
 			}
 
 			var loaded = TryLoadDisplays(out var displays, out var hasSoftwareDisplay);
-			result.HasProhibitedDisplay = prohibitedDisplay == true || hasSoftwareDisplay == true || displays.Any(d => d.IsActive && !d.IsInternal);
+			result.HasProhibitedDisplay = prohibitedDisplay == true || hasSoftwareDisplay == true || displays.Any(d => d.IsActive && (d.Technology == VideoOutputTechnology.MiraCast || d.Technology == VideoOutputTechnology.IndirectVirtual));
 
 			if (result.HasProhibitedDisplay)
 			{
-				logger.Warn("Detected an external, mirrored or virtual display. Only built-in displays are allowed.");
+				logger.Warn("Detected a wireless or virtual display.");
 			}
 
 			if (loaded)
@@ -93,11 +93,12 @@ namespace SafeExamBrowser.Monitoring.Display
 				var active = displays.Where(d => d.IsActive);
 				var count = active.Count();
 				var hasAllowedCount = count <= settings.AllowedDisplays;
-				var pathsAllowed = settings.IgnoreError || (prohibitedDisplay.HasValue && hasSoftwareDisplay.HasValue);
+				var complete = active.All(d => d.Technology != VideoOutputTechnology.Uninitialized);
+				var pathsAllowed = settings.IgnoreError || (prohibitedDisplay.HasValue && hasSoftwareDisplay.HasValue && complete);
 
-				result.ExternalDisplays = active.Count(d => !d.IsInternal);
+				result.ExternalDisplays = active.Count(d => d.Technology != VideoOutputTechnology.Uninitialized && !d.IsInternal);
 				result.InternalDisplays = active.Count(d => d.IsInternal);
-				result.IsAllowed = hasAllowedCount && !result.HasProhibitedDisplay && pathsAllowed;
+				result.IsAllowed = (!settings.InternalDisplayOnly || result.ExternalDisplays == 0) && hasAllowedCount && !result.HasProhibitedDisplay && pathsAllowed;
 
 				if (result.IsAllowed)
 				{

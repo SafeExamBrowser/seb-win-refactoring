@@ -352,17 +352,13 @@ namespace SafeExamBrowser.WindowsApi
 
 		internal static bool ContainsProhibitedPath(User32.DisplayConfigPath[] paths, uint pathCount)
 		{
-			const int lvds = 6, embeddedDisplayPort = 11, embeddedUdi = 13, internalPanel = int.MinValue;
-			var sources = new HashSet<(long, uint)>();
+			const int miracast = 15, indirectVirtual = 17;
 
 			for (var index = 0; index < pathCount; index++)
 			{
-				var path = paths[index];
+				var technology = paths[index].OutputTechnology;
 
-				var technology = path.OutputTechnology;
-				var isInternal = technology == internalPanel || technology == embeddedDisplayPort || technology == embeddedUdi || technology == lvds;
-
-				if (!isInternal || !sources.Add((path.SourceAdapter, path.SourceId)))
+				if (technology == miracast || technology == indirectVirtual)
 				{
 					return true;
 				}

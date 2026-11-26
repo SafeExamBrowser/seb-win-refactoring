@@ -102,7 +102,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 
 		[TestMethod]
 		[DataRow(false, OperationResult.Failed)]
-		[DataRow(true, OperationResult.Aborted)]
+		[DataRow(true, OperationResult.Failed)]
 		public void Repeat_MustShowDisplayErrorAndStop(bool prohibitedDisplay, OperationResult expected)
 		{
 			var messageShown = false;
