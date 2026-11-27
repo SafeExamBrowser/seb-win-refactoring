@@ -88,6 +88,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (Exception e)
 			{
+				isRemoteSession = true;
 				logger.Error("Unexpected error while attempting to query remote session status!", e);
 			}
 
@@ -117,6 +118,9 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (Exception e)
 			{
+				isVirtualMachine = true;
+				manufacturer = $"Unexpected Error: {e.Message}";
+				probability = 100;
 				logger.Error("Unexpected error while attempting to query virtual machine information!", e);
 			}
 
@@ -180,6 +184,8 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (Exception e)
 			{
+				isValid = false;
+				success = true;
 				logger.Error("Unexpected error while attempting to verify code signature!", e);
 			}
 
@@ -211,6 +217,8 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (Exception e)
 			{
+				violations = RuntimeIntegrityViolation.Behavior | RuntimeIntegrityViolation.Components;
+				success = true;
 				logger.Error("Unexpected error while attempting to verify runtime integrity!", e);
 			}
 
@@ -221,7 +229,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 		{
 			var success = false;
 
-			isValid = false;
+			isValid = default;
 
 			if (TryReadSessionCache(out var sessions))
 			{
