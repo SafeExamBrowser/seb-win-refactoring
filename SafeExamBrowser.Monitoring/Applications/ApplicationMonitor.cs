@@ -32,6 +32,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private Guid? foregroundHookId;
 		private IList<IProcess> processes;
 		private Window activeWindow;
+		private IntPtr webAuthnDialogHandle;
 
 		public event ExplorerStartedEventHandler ExplorerStarted;
 		public event InstanceStartedEventHandler InstanceStarted;
@@ -374,7 +375,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 			if (TryGetProcessFor(window, out var process))
 			{
-				allowed = BelongsToSafeExamBrowser(process) || IsWhitelisted(process, out _);
+				allowed = BelongsToSafeExamBrowser(process) || IsWhitelisted(process, out _) || IsWebAuthnDialog(process, window);
 			}
 
 			if (!allowed)
@@ -383,6 +384,19 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 
 			return allowed;
+		}
+
+		private bool IsWebAuthnDialog(IProcess process, Window window)
+		{
+			var isDialog = WebAuthnDialogHost.IsHostedBy(process);
+
+			if (isDialog && webAuthnDialogHandle != window.Handle)
+			{
+				webAuthnDialogHandle = window.Handle;
+				logger.Info($"Allowing window {window} of process {process}, as it hosts the native WebAuthn user interface (passkey, Windows Hello, security key).");
+			}
+
+			return isDialog;
 		}
 
 		private bool IsWhitelisted(IProcess process, out Guid? applicationId)
