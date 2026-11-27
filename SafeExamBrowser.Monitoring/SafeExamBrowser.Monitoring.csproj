@@ -57,6 +57,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\WebAuthnDialogHost.cs" />
     <Compile Include="Applications\Window.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="Display\Bounds.cs" />
